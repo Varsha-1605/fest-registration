@@ -4,109 +4,263 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+
+        .navbar ul {
+            list-style: none;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar ul li a:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 span {
+            color: #ffd700;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btnn {
+            background: #ffd700;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btnn:hover {
+            background: #ffec3c;
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .progress-step.active {
+            background: #ffd700;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <div class="main">
+    <div class="container">
         <div class="navbar">
-            <div class="menu">
-                <ul>
-                    <li><a href="see_details.html">See Details</a></li>
-                </ul>
-            </div>
+            <ul>
+                <li><a href="see_details.html">See Details</a></li>
+            </ul>
         </div>
-        <div class="content">
-            <h1>Grand <span>Event</span> Celebration</h1>
-            <form id="myform" action="/submit" method="post">
-                <!-- Step 1: Basic Details -->
-                <div class="form-step step-1">
-                    <h2>Step 1: Basic Details</h2>
-                    <div class="form-group">
-                        <label for="roll">Class Roll Number</label>
-                        <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fullname">Full Name</label>
-                        <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
-                    </div>
+        <h1>Grand <span>Event</span> Celebration</h1>
+        <div class="progress-bar">
+            <div class="progress-step active">1</div>
+            <div class="progress-step">2</div>
+            <div class="progress-step">3</div>
+        </div>
+        <form id="myform" action="/submit" method="post">
+            <div class="form-step step-1 active">
+                <h2>Step 1: Basic Details</h2>
+                <div class="form-group">
+                    <label for="roll">Class Roll Number</label>
+                    <input type="text" id="roll" name="roll" placeholder="Enter Your Class Roll" required>
+                </div>
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" required>
+                </div>
+                <button type="button" class="btnn next-step">Next</button>
+            </div>
+
+            <div class="form-step step-2">
+                <h2>Step 2: Contact Information</h2>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter Your Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phno">Phone Number</label>
+                    <input type="text" id="phno" name="phno" placeholder="Enter Your Phone Number" required>
+                </div>
+                <div class="form-navigation">
+                    <button type="button" class="btnn prev-step">Previous</button>
                     <button type="button" class="btnn next-step">Next</button>
                 </div>
+            </div>
 
-                <!-- Step 2: Contact Information -->
-                <div class="form-step step-2" style="display:none;">
-                    <h2>Step 2: Contact Information</h2>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="Enter Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phno">Phone Number</label>
-                        <input type="text" id="phno" name="phno" placeholder="Enter Your Phone Number" required>
-                    </div>
-                    <div class="form-navigation">
-                        <button type="button" class="btnn prev-step">Previous</button>
-                        <button type="button" class="btnn next-step">Next</button>
-                    </div>
+            <div class="form-step step-3">
+                <h2>Step 3: Event Selection</h2>
+                <div class="form-group">
+                    <label for="stream">Select Stream</label>
+                    <select id="stream" name="stream" required>
+                        <option value="">Select Your Stream</option>
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="BCA">BCA</option>
+                        <option value="MCA">MCA</option>
+                    </select>
                 </div>
-
-                <!-- Step 3: Event Details -->
-                <div class="form-step step-3" style="display:none;">
-                    <h2>Step 3: Event Selection</h2>
-                    <div class="form-group">
-                        <label for="stream">Select Stream</label>
-                        <select id="stream" name="stream" required>
-                            <option value="">Select Your Stream</option>
-                            <option value="CSE">CSE</option>
-                            <option value="IT">IT</option>
-                            <option value="ECE">ECE</option>
-                            <option value="BCA">BCA</option>
-                            <option value="MCA">MCA</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="event">Select Event</label>
-                        <select id="event" name="event" required>
-                            <option value="">Select an Event</option>
-                            <option value="Quiz">Quiz</option>
-                            <option value="Essay">Essay</option>
-                            <option value="Poetry">Poetry</option>
-                            <option value="Dancing">Dancing</option>
-                            <option value="Singing">Singing</option>
-                            <option value="Debate">Debate</option>
-                        </select>
-                    </div>
-                    <div class="form-navigation">
-                        <button type="button" class="btnn prev-step">Previous</button>
-                        <button type="submit" class="btnn">Submit</button>
-                    </div>
+                <div class="form-group">
+                    <label for="event">Select Event</label>
+                    <select id="event" name="event" required>
+                        <option value="">Select an Event</option>
+                        <option value="Quiz">Quiz</option>
+                        <option value="Essay">Essay</option>
+                        <option value="Poetry">Poetry</option>
+                        <option value="Dancing">Dancing</option>
+                        <option value="Singing">Singing</option>
+                        <option value="Debate">Debate</option>
+                    </select>
                 </div>
-            </form>
-        </div>
+                <div class="form-navigation">
+                    <button type="button" class="btnn prev-step">Previous</button>
+                    <button type="submit" class="btnn">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script>
-        // Get all form steps
         const steps = Array.from(document.querySelectorAll(".form-step"));
+        const progressSteps = Array.from(document.querySelectorAll(".progress-step"));
         const nextBtns = document.querySelectorAll(".next-step");
         const prevBtns = document.querySelectorAll(".prev-step");
 
+        let currentStep = 0;
+
+        function updateSteps() {
+            steps.forEach((step, index) => {
+                if (index === currentStep) {
+                    step.classList.add("active");
+                    progressSteps[index].classList.add("active");
+                } else {
+                    step.classList.remove("active");
+                    progressSteps[index].classList.remove("active");
+                }
+            });
+        }
+
         nextBtns.forEach(btn => {
             btn.addEventListener("click", () => {
-                changeStep(1);
+                currentStep++;
+                updateSteps();
+                gsap.from(steps[currentStep], {opacity: 0, y: 20, duration: 0.5});
             });
         });
 
         prevBtns.forEach(btn => {
             btn.addEventListener("click", () => {
-                changeStep(-1);
+                currentStep--;
+                updateSteps();
+                gsap.from(steps[currentStep], {opacity: 0, y: -20, duration: 0.5});
             });
         });
 
-        function changeStep(step) {
-            let index = steps.findIndex(step => step.style.display !== "none");
-            steps[index].style.display = "none";
-            steps[index + step].style.display = "block";
-        }
+        gsap.from(".container", {opacity: 0, y: 50, duration: 1, ease: "power3.out"});
+        gsap.from("h1", {opacity: 0, y: 30, duration: 1, delay: 0.5, ease: "power3.out"});
+        gsap.from(".progress-bar", {opacity: 0, scale: 0.8, duration: 1, delay: 0.7, ease: "back.out(1.7)"});
     </script>
 </body>
 </html>
