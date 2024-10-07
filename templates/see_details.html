@@ -71,6 +71,17 @@
                 margin-bottom: 5px;
             }
         }
+        .update-btn {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .update-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -90,18 +101,22 @@
                 <div>Phone</div>
                 <div>Stream</div>
                 <div>Event</div>
+                <div>Action</div>
             </div>
         </div>
         {% for row in rows %}
             <div class="candidate">
                 <img src="{{ url_for('static', filename='uploads/' + row[6]) }}" alt="Profile Picture" class="profile-pic">
                 <div class="candidate-info">
+                    <div>{{ row[0] }}</div>
                     <div>{{ row[1] }}</div>
                     <div>{{ row[2] }}</div>
                     <div>{{ row[3] }}</div>
                     <div>{{ row[4] }}</div>
                     <div>{{ row[5] }}</div>
-                    <div>{{ row[6] }}</div>
+                    <div>
+                        <a href="{{ url_for('update_profile', roll=row[0]) }}" class="update-btn">Update</a>
+                    </div>
                 </div>
             </div>
         {% endfor %}

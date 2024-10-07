@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <link rel="StyleSheet" href="/static/style.css">
+</head>
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="menu">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/see_details.html">See Details</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content">
+            <h1>Update <span>Profile</span></h1>
+            <form id="updateForm" action="{{ url_for('update_profile', roll=profile[0]) }}" method="post" enctype="multipart/form-data">
+                <div class="form">
+                    <h2>Update Your Information</h2>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter Your Full Name" value="{{ profile[1] }}" required>
+                    <input type="email" id="email" name="email" placeholder="Enter Email Address" value="{{ profile[2] }}" required>
+                    <input type="text" id="phno" name="phno" placeholder="Enter Phone Number" value="{{ profile[3] }}" required>
+
+                    <div class="form-group">
+                        <label for="profile">Update Profile Picture</label>
+                        <input type="file" id="profile" name="profile" accept="image/*">
+                    </div>
+
+                    <div class="select-box">
+                        <select id="stream" name="stream" required>
+                            <option value="">Select Stream</option>
+                            <option value="CSE" {% if profile[4] == 'CSE' %}selected{% endif %}>CSE</option>
+                            <option value="IT" {% if profile[4] == 'IT' %}selected{% endif %}>IT</option>
+                            <option value="ECE" {% if profile[4] == 'ECE' %}selected{% endif %}>ECE</option>
+                            <option value="BCA" {% if profile[4] == 'BCA' %}selected{% endif %}>BCA</option>
+                            <option value="MCA" {% if profile[4] == 'MCA' %}selected{% endif %}>MCA</option>
+                        </select>
+                    </div>
+
+                    <div class="select-box">
+                        <select id="event" name="event" required>
+                            <option value="">Select an Event</option>
+                            <option value="Quiz" {% if profile[5] == 'Quiz' %}selected{% endif %}>Quiz</option>
+                            <option value="Essay" {% if profile[5] == 'Essay' %}selected{% endif %}>Essay</option>
+                            <option value="Poetry" {% if profile[5] == 'Poetry' %}selected{% endif %}>Poetry</option>
+                            <option value="Dancing" {% if profile[5] == 'Dancing' %}selected{% endif %}>Dancing</option>
+                            <option value="Singing" {% if profile[5] == 'Singing' %}selected{% endif %}>Singing</option>
+                            <option value="Debate" {% if profile[5] == 'Debate' %}selected{% endif %}>Debate</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btnn">Update Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Add client-side validation similar to the registration form if needed
+    </script>
+</body>
+</html>

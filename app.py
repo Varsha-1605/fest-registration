@@ -20,7 +20,7 @@ db_config = {
     'host': os.environ.get('DB_HOST', 'localhost'),
     'database': os.environ.get('DB_NAME', 'event_database'),
     'user': os.environ.get('DB_USER', 'root'),
-    'password': os.environ.get('DB_PASSWORD', 'anuradha') # write your own password
+    'password': os.environ.get('DB_PASSWORD', 'Varsha@1605!!') # write your own password
 }
 
 def create_connection():
@@ -126,6 +126,66 @@ def see_details():
             close_connection(connection, cursor)
 
     return render_template('see_details.html', rows=rows)
+@app.route('/update_profile/<roll>', methods=['GET', 'POST'])
+def update_profile(roll):
+    if request.method == 'GET':
+        connection = create_connection()
+        cursor = None
+        if connection:
+            try:
+                cursor = connection.cursor()
+                select_query = "SELECT * FROM registrations WHERE roll = %s"
+                cursor.execute(select_query, (roll,))
+                profile = cursor.fetchone()
+                if profile:
+                    return render_template('update_profile.html', profile=profile)
+                else:
+                    return "Profile not found", 404
+            except Error as e:
+                print(f"Error occurred while fetching profile: {e}")
+                return jsonify({"error": "An error occurred while fetching profile."}), 500
+            finally:
+                close_connection(connection, cursor)
+    elif request.method == 'POST':
+        try:
+            fullname = request.form['fullname']
+            email = request.form['email']
+            phno = request.form['phno']
+            stream = request.form['stream']
+            event = request.form['event']
+            profile_pic = request.files['profile']
+
+            connection = create_connection()
+            if connection is None:
+                raise Exception("Failed to connect to the database")
+
+            cursor = connection.cursor()
+
+            if profile_pic:
+                filename = f"{roll}_{profile_pic.filename}"
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                profile_pic.save(filepath)
+            else:
+                filename = None
+
+            update_profile_proc = "CALL update_profile(%s, %s, %s, %s, %s, %s, %s)"
+            data = (roll, fullname, email, phno, stream, event, filename)
+            cursor.execute(update_profile_proc, data)
+            connection.commit()
+
+            return redirect(url_for('see_details'))
+
+        except Error as e:
+            print(f"Database error: {e}")
+            return jsonify({"error": "Database error occurred."}), 500
+        except Exception as e:
+            print(f"General error: {e}")
+            return jsonify({"error": str(e)}), 500
+        finally:
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
 
 @app.route('/success')
 def success():
